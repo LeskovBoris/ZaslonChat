@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "184870517579",
+    "project_id": "zaslonchat",
+    "storage_bucket": "zaslonchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184870517579:android:67e0b11926f1368e1786ce",
+        "android_client_info": {
+          "package_name": "com.example.zaslonchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184870517579-rh10rjh6bjng5d2vjddnep90vtk04iii.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zaslonchat",
+            "certificate_hash": "09c6a01543b8c182a42c83ce7c61aa16c4b42fa3"
+          }
+        },
+        {
+          "client_id": "184870517579-6klhkr9t0eeuvnb0ffju2b5rcu2ig91o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvA1wJeB0Ii1Wr6Z67wCCd_7RA2tKk2iQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184870517579-6klhkr9t0eeuvnb0ffju2b5rcu2ig91o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
