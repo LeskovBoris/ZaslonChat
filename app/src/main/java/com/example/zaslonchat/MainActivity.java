@@ -1,5 +1,7 @@
 package com.example.zaslonchat;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -13,6 +15,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference messagesDatabasereference;
-    DatabaseReference usersDatabasereference;
+    ChildEventListener messagesChildEventListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         messagesDatabasereference = database.getReference().child("messages");
-        messagesDatabasereference.child("message1").setValue("Hello firebase");
-        messagesDatabasereference.child("message2").setValue("Hello world");
 
-        usersDatabasereference = database.getReference().child("users");
-        usersDatabasereference.child("user1").setValue("Joe");
+
 
         progressBar = findViewById(R.id.progressBar);
         sendImageButton = findViewById(R.id.sendPhotoButton);
@@ -90,6 +93,15 @@ public class MainActivity extends AppCompatActivity {
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ZaslonMessage message = new ZaslonMessage();
+                message.setName(userName);
+                message.setImageUrl(null);
+                message.setText(messageEditText.getText().toString());
+                messagesDatabasereference.push().setValue(message);
+
+
+
                 messageEditText.setText("");
             }
         });
@@ -100,5 +112,38 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        messagesChildEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                ZaslonMessage message = snapshot.getValue(ZaslonMessage.class);
+
+                adapter.add(message); // прикрепляем адаптер Listview к добавленному сообщению
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        messagesDatabasereference.addChildEventListener(messagesChildEventListener);
     }
 }

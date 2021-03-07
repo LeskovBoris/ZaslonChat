@@ -38,8 +38,8 @@ public class ZaslonMessageAdapter extends ArrayAdapter<ZaslonMessage> {
         boolean isText = message.getImageUrl() == null;
 
         if(isText) {
-            textTextView.setVisibility(View.GONE);
-            photoImageVIew.setVisibility(View.INVISIBLE);
+            textTextView.setVisibility(View.VISIBLE);
+            photoImageVIew.setVisibility(View.GONE);
 
             textTextView.setText(message.getText());
         } else{
