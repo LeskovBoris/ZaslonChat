@@ -2,17 +2,21 @@ package com.example.zaslonchat;
 
 public class ZaslonMessage {
 
-    String text;
-    String name;
-    String imageUrl;
+    private String text;
+    private String name;
+    private String sender;
+    private String recipient;
+    private String imageUrl;
 
     public ZaslonMessage() {
 
     }
 
-    public ZaslonMessage(String text, String name, String imageUrl) {
+    public ZaslonMessage(String text, String name, String sender, String recipient, String imageUrl) {
         this.text = text;
         this.name = name;
+        this.sender = sender;
+        this.recipient = recipient;
         this.imageUrl = imageUrl;
     }
 
@@ -38,5 +42,21 @@ public class ZaslonMessage {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 }

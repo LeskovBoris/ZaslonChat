@@ -46,17 +46,19 @@ public class ChatActivity extends AppCompatActivity {
     private EditText messageEditText;
 
     private String userName;
+    private String recipientUserId;
+    private FirebaseAuth auth;
 
     private static final int RC_IMAGE_PICKER = 123;
 
-    FirebaseDatabase database;
-    DatabaseReference messagesDatabasereference;
-    ChildEventListener messagesChildEventListener;
-    DatabaseReference usersDatabasereference;
-    ChildEventListener usersChildEventListener;
+    private FirebaseDatabase database;
+    private DatabaseReference messagesDatabasereference;
+    private ChildEventListener messagesChildEventListener;
+    private DatabaseReference usersDatabasereference;
+    private ChildEventListener usersChildEventListener;
 
-    FirebaseStorage storage;
-    StorageReference chatImagesStorageReference;
+    private FirebaseStorage storage;
+    private StorageReference chatImagesStorageReference;
 
 
 
@@ -65,6 +67,18 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        auth = FirebaseAuth.getInstance();
+
+        Intent intent = getIntent();
+        if(intent != null) {
+            userName = intent.getStringExtra("userName");
+            recipientUserId = intent.getStringExtra("recipientUserId");
+        } else {
+            userName = "Default User";
+        }
+
+
 
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -80,12 +94,8 @@ public class ChatActivity extends AppCompatActivity {
         sendMessageButton = findViewById(R.id.sendMessageButton);
         messageEditText = findViewById(R.id.messageEditText);
 
-        Intent intent = getIntent();
-        if(intent != null) {
-            userName = intent.getStringExtra("userName");
-        } else {
-            userName = "Default User";
-        }
+
+
 
 
         messageListView = findViewById(R.id.messageListView);
@@ -127,6 +137,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 ZaslonMessage message = new ZaslonMessage();
                 message.setName(userName);
+                message.setSender(auth.getCurrentUser().getUid());
+                message.setRecipient(recipientUserId);
                 message.setImageUrl(null);
                 message.setText(messageEditText.getText().toString());
                 messagesDatabasereference.push().setValue(message);
@@ -188,7 +200,15 @@ public class ChatActivity extends AppCompatActivity {
 
                 ZaslonMessage message = snapshot.getValue(ZaslonMessage.class);
 
-                adapter.add(message); // прикрепляем адаптер Listview к добавленному сообщению
+                if(message.getSender().equals(auth.getCurrentUser().getUid())
+                        && message.getRecipient().equals(recipientUserId) ||
+                        message.getRecipient().equals(auth.getCurrentUser().getUid())
+                                && message.getSender().equals(recipientUserId)) {
+
+                    adapter.add(message); // прикрепляем адаптер Listview к добавленному сообщению
+                }
+
+
 
             }
 

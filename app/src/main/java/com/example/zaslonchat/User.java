@@ -10,7 +10,7 @@ public class User {
     public User() {
     }
 
-    public int getAvatarMockUpResource() {
+    public int getAvatarMockUpResource(int ic_baseline_person_24) {
         return avatarMockUpResource;
     }
 

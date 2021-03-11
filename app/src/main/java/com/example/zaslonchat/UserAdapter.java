@@ -43,7 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
 
         User currentUser = users.get(position);
-        holder.avatarImageView.setImageResource(currentUser.getAvatarMockUpResource());
+        holder.avatarImageView.setImageResource(currentUser.getAvatarMockUpResource(R.drawable.ic_baseline_person_24));
         holder.userNameTextView.setText(currentUser.getName());
 
 
