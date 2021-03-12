@@ -291,6 +291,8 @@ public class ChatActivity extends AppCompatActivity {
                         ZaslonMessage message = new ZaslonMessage();
                         message.setImageUrl(downloadUri.toString());
                         message.setName(userName);
+                        message.setSender(auth.getCurrentUser().getUid());
+                        message.setRecipient(recipientUserId);
                         messagesDatabasereference.push().setValue(message);
                     } else {
                         // Handle failures
