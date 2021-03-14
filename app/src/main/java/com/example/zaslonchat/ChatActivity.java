@@ -67,6 +67,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,10 +160,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-//                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-//                startActivityForResult(Intent.createChooser(intent, "Choose an image"), RC_IMAGE_PICKER);
+
                 getContent.launch("image/*");
 
             }
@@ -269,56 +267,48 @@ public class ChatActivity extends AppCompatActivity {
         return true;
     }
 
-    //получаем изображение с телефона и загружаем в storage
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if(requestCode == RC_IMAGE_PICKER && resultCode == RESULT_OK) {
-//
-//            Uri selectedImageUri = data.getData();
-//            StorageReference imageReference = chatImagesStorageReference.child(selectedImageUri.getLastPathSegment());
-//
-//            UploadTask uploadTask = imageReference.putFile(selectedImageUri);
-//
-//
-//            uploadTask = imageReference.putFile(selectedImageUri);
-//
-//            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-//                @Override
-//                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-//                    if (!task.isSuccessful()) {
-//                        throw task.getException();
-//                    }
-//
-//                    // Continue with the task to get the download URL
-//                    return imageReference.getDownloadUrl();
-//                }
-//            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Uri> task) {
-//                    if (task.isSuccessful()) {
-//                        Uri downloadUri = task.getResult();
-//                        ZaslonMessage message = new ZaslonMessage();
-//                        message.setImageUrl(downloadUri.toString());
-//                        message.setName(userName);
-//                        message.setSender(auth.getCurrentUser().getUid());
-//                        message.setRecipient(recipientUserId);
-//                        messagesDatabasereference.push().setValue(message);
-//                    } else {
-//                        // Handle failures
-//                        // ...
-//                    }
-//                }
-//            });
-//        }
-//    }
 
-    ActivityResultLauncher<String> getContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
-            new ActivityResultCallback<Uri>() {
+
+    ActivityResultLauncher getContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+        @Override
+        public void onActivityResult(Uri selectedImageUri) {
+
+            StorageReference imageReference = chatImagesStorageReference.child(selectedImageUri.getLastPathSegment());
+
+            UploadTask uploadTask = imageReference.putFile(selectedImageUri);
+
+
+            uploadTask = imageReference.putFile(selectedImageUri);
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onActivityResult(Uri result) {
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
 
+                    // Continue with the task to get the download URL
+                    return imageReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Uri downloadUri = task.getResult();
+                        ZaslonMessage message = new ZaslonMessage();
+                        message.setImageUrl(downloadUri.toString());
+                        message.setName(userName);
+                        message.setSender(auth.getCurrentUser().getUid());
+                        message.setRecipient(recipientUserId);
+                        messagesDatabasereference.push().setValue(message);
+                    } else {
+                        // Handle failures
+                        // ...
+                    }
                 }
             });
+        }
+
+
+    });
 }
