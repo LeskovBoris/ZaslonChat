@@ -129,6 +129,8 @@ public class UserListActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(UserListActivity.this, SignInActivity.class));
                 return true;
+            case R.id.account_settings:
+                startActivity(new Intent(UserListActivity.this, AccountSettingsActivity.class) );
             default:
                 return super.onOptionsItemSelected(item);
         }
