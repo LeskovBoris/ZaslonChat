@@ -169,11 +169,13 @@ public class SignInActivity extends AppCompatActivity {
             loginSignUpButton.setText("Sign Up");
             toggleLoginSignUpTextView.setText("Tap to log in");
             repeatpasswordEditText.setVisibility(View.VISIBLE);
+            nameEditText.setVisibility(View.VISIBLE);
         } else {
             loginModeActive = true;
             loginSignUpButton.setText("Log In");
             toggleLoginSignUpTextView.setText("Tap to sign up");
             repeatpasswordEditText.setVisibility(View.GONE);
+            nameEditText.setVisibility(View.GONE);
         }
     }
 }
