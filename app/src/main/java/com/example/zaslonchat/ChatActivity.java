@@ -255,6 +255,8 @@ public class ChatActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(ChatActivity.this, SignInActivity.class));
                 return true;
+            case R.id.account_settings:
+                startActivity(new Intent(ChatActivity.this, AccountSettingsActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }

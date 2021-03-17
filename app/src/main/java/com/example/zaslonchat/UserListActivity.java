@@ -130,7 +130,9 @@ public class UserListActivity extends AppCompatActivity {
                 startActivity(new Intent(UserListActivity.this, SignInActivity.class));
                 return true;
             case R.id.account_settings:
-                startActivity(new Intent(UserListActivity.this, AccountSettingsActivity.class) );
+                Intent intent = new Intent(UserListActivity.this, AccountSettingsActivity.class);
+                intent.putExtra("userName", userName);
+                startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -44,16 +44,16 @@
            android:layout_height="wrap_content"/>
 
        <ImageButton
-           android:background="@drawable/ic_baseline_edit_24"
-           android:layout_marginTop="20dp"
            android:id="@+id/editNameImageButton"
            android:layout_width="wrap_content"
-           android:layout_height="wrap_content"/>
+           android:layout_height="wrap_content"
+           android:onClick="cLickEditName"
+           android:layout_marginTop="20dp"
+           android:background="@drawable/ic_baseline_edit_24" />
 
 
 
    </LinearLayout>
-
 
 
 </LinearLayout>
