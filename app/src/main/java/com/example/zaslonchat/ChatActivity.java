@@ -63,7 +63,6 @@ public class ChatActivity extends AppCompatActivity {
 
     private FirebaseStorage storage;
     private StorageReference chatImagesStorageReference;
-    private StorageReference avatarImagesStorageReference;
 
 
 

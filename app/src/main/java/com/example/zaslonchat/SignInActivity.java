@@ -25,6 +25,7 @@ public class SignInActivity extends AppCompatActivity {
     private static final String TAG = "SignInActivity";
 
     private FirebaseAuth auth;
+    private User user;
 
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -154,7 +155,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void createUser(FirebaseUser firebaseUser) {
-        User user = new User();
+        user = new User();
         user.setId(firebaseUser.getUid());
         user.setEmail(firebaseUser.getEmail());
         user.setName(nameEditText.getText().toString().trim());
